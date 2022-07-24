@@ -1,5 +1,6 @@
-package com.example.demo.controller;
+package com.example.demo.service;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
@@ -44,5 +45,36 @@ public void createUserTest()
     usersService.save(usersAddressDTO); 
     verify(usersService, times(1)).createUser(usersAddress);
 }
+@Test
+public void getUserDetailsTest()
+{
+    
+    Address address1 = new Address("AP","Vizag","2334");
+    
+    List<Address> users1Address = new ArrayList<>();
+    users1Address.add(address1);
+    
+    Optional<Users> users1 = Optional.of(new UsersAddressDTO("Geethika","sowmya","geethika@gmail.com", "AP","Vizag", "566555", users1Address);
+    when(usersService.getUser(1)).thenReturn(users1);
+    
+    Optional<UsersAddressDTO> users=usersService.getUser(1);
+    assertEquals("Geethika", users.get().getName());
+    assertEquals("2364565688", users.get().getPhone());
+    assertEquals(1, users.get().getUserId());
+}
+@Test
+public void updateUsersDetailsTest()
+{
+    Address address=new Address("AP","Vizag","2334");
+    
+    List<Address> usersAddress=new ArrayList<>();
+    usersAddress.add(address);
+    
+    UsersAddressDTO usersAddressDTO = new UsersAddressDTO(1,"Geethika","sowmya","geethika@gmail.com", "AP","Vizag", "566555", users1Address);
+    usersService.updateUsers(usersAddressDTO);
+    verify(usersService, times(1)).updateUsers(usersAddressDTO);
+}
+
+
 
 }

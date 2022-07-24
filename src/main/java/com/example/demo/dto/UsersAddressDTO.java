@@ -67,6 +67,7 @@ public void setPostalcode(String postalcode) {
 	this.postalcode = postalcode;
 }
 
+
 }
 
 	
