@@ -12,44 +12,47 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.dto.UsersAddressDTO;
+import com.example.demo.dto.UsersDTO;
 import com.example.demo.model.Users;
 import com.example.demo.service.UsersService;
+
+
 
 @RestController
 public class UsersController {
 	
 	@Autowired
-	private UsersService usersservice;
+	private UsersService usersService;
 	
-	@GetMapping("/users")
-	public List<UsersAddressDTO> getUsers() {
-		return usersservice.getUsers();
+	@PostMapping("/addUsersDetails")
+	public Users addUsersDetails(@RequestBody UsersDTO usersDTO)
+	{
+		return usersService.addUsersDetails(usersDTO);
 	}
-	@GetMapping("/user/{id}")
-	public Optional<UsersAddressDTO> getUser(@PathVariable long id) {
-		return usersservice.getUser(id);
-	}
-																																						
-	@PostMapping("/user")
-	public UsersAddressDTO createUsers(@RequestBody Users users) {
-		return usersservice.createUser(users);
+
+	@GetMapping("/getAllUsers")
+	public List<Users> getAllUsers()
+	{
+		return usersService.getAllUsers();
 	}
 	
-	@PutMapping("/user/{id}")
-	public UsersAddressDTO updateUsers(@PathVariable long id, @RequestBody Users users) {
-		return usersservice.updateUser(id,users);
-	}	
+	@PutMapping("/updateUser")
+	public Users updateUserDetailsa(@RequestBody UsersDTO usersDTO) 
+	{
+		return usersService.updateUserDetails(usersDTO);
+	}
 	
-	@DeleteMapping("/user/{id}")
-	public String deleteUsers(@PathVariable long id) {
-		usersservice.deleteUsers(id);
-		return("Deleted ");
-	}	
+	@GetMapping("/getUser/{id}")
+	public Optional<Users> getUserDetails(@PathVariable("id") int id)
+	{
+		
+		return usersService.getUserDetails(id);
+	}
 	
-	@DeleteMapping("/users")
-	public String deleteUsers() {
-		usersservice.deleteUsers();
-		return("All users deleted");
-	}	
+	@DeleteMapping("/deleteUser/{id}")
+	public void deleteUserDetails(@PathVariable("id") int id) 
+	{
+		 usersService.deleteUserDetails(id);
+	}
+
 }
