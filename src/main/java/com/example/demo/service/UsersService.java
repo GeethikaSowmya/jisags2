@@ -9,7 +9,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.dto.UsersDTO;
+import com.example.demo.dto.UsersRequestDTO;
 import com.example.demo.model.Users;
 import com.example.demo.repository.AddressRepository;
 import com.example.demo.repository.UsersRepository;
@@ -25,7 +25,7 @@ public class UsersService {
 	
 	ModelMapper mm = new ModelMapper();
 	
-	public Users addUsersDetails(UsersDTO usersDTO)
+	public Users addUsersDetails(UsersRequestDTO usersDTO)
 	{
 		Users users = mm.map(usersDTO, Users.class);
 		return usersRepository.save(users);
@@ -36,7 +36,7 @@ public class UsersService {
 		return usersRepository.findAll();
 	}
 	
-	public Users updateUserDetails(UsersDTO usersDTO) 
+	public Users updateUserDetails(UsersRequestDTO usersDTO) 
 	{
 		Users users = mm.map(usersDTO, Users.class);
 		return usersRepository.save(users);
@@ -51,6 +51,8 @@ public class UsersService {
 	{
 	    usersRepository.deleteById(id);
 	}
+
+	
 	
 }
 	
