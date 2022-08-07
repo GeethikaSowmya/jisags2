@@ -70,21 +70,7 @@ public class UsersControllerTest {
         ResponseEntity<UsersDTO> usersResponse =   userController.updateusers(mockusersRequestDTO());
         Assertions.assertEquals(usersResponse.getStatusCode() , HttpStatus.BAD_REQUEST);
     }
-
-//    @Test
-//    public void deleteusersTest(){
-//        Mockito.when(usersService.deleteUserDetails(usersDeleteDTOMock())).thenReturn(RECORD_DELETED);
-//        ResponseEntity<String> usersResponse = usersController.deleteusers(usersDeleteDTOMock());
-//        Assertions.assertEquals(usersResponse.getStatusCode() ,HttpStatus.OK);
-//    }
-//
-//
-//    @Test
-//    public void deleteusersForNegative(){
-//        Mockito.when(usersService.deleteUserDetails(null)).thenReturn(NOT_FOUND);
-//        ResponseEntity<String> usersResponse =   usersController.deleteusers(usersDeleteDTOMock());
-//        Assertions.assertEquals(usersResponse.getStatusCode() , HttpStatus.NOT_FOUND);
-//    }
+  
     private UsersRequestDTO mockusersRequestDTO(){
     	UsersRequestDTO usersRequestDTO = new UsersRequestDTO();
     	usersRequestDTO.setId(109);
@@ -107,18 +93,10 @@ public class UsersControllerTest {
         return usersResponseDTO;
     }
 
-//    private UsersDeleteDTO usersDeleteDTOMock(){
-//    	UsersDeleteDTO usersDeleteDTO = new UsersDeleteDTO();
-//        usersDeleteDTO.setId("101");
-//        usersDeleteDTO.setModifiedBy("mock");
-//        return usersDeleteDTO;
-//    }
-
-
     private List<UsersResponseDTO> listOfUsersMock(){
         List<UsersResponseDTO> listOfusers = new ArrayList<>();
         UsersResponseDTO users = new UsersResponseDTO();
-        users.setid(109);
+        users.setId(109);
         users.setname("Mock Name");
     	users.setUsername("Mock User Name");
     	users.setPhone("6545446");
