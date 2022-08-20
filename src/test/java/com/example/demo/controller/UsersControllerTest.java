@@ -1,129 +1,176 @@
 package com.example.demo.controller;
 
+import static org.junit.Assert.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-
-import com.example.demo.dto.UsersRequestDTO;
-import com.example.demo.dto.UsersResponseDTO;
+import com.example.demo.dto.UsersDTO;
+import com.example.demo.model.Address;
 import com.example.demo.model.Users;
 import com.example.demo.service.UsersService;
 
 
 @SpringBootTest
 public class UsersControllerTest {
+
 	@InjectMocks
-    private UsersController usersController;
-
-    @Mock
-    private UsersService usersService;
-
-    @Test
-    public void createUsersTest(){
-        Mockito.when(usersService.saveUsers(mockusersRequestDTO())).thenReturn(usersResponseDTOMock());
-        ResponseEntity<UsersResponseDTO> usersResponse =   usersController.createUsers(mockusersRequestDTO());
-        Assertions.assertEquals(usersResponse.getStatusCode() , HttpStatus.CREATED);
-    }
-
-
-    @Test
-    public void createUsersTestForNegative(){
-        Mockito.when(usersService.addUsersDetails(null)).thenReturn(usersResponseDTOMock());
-        ResponseEntity<UsersResponseDTO> usersResponse = usersController.createusers(mockusersRequestDTO());
-        Assertions.assertEquals(usersResponse.getStatusCode() , HttpStatus.BAD_REQUEST);
-    }
-    
-    @Test
-    public void getAllUsersTest(){
-        Mockito.when(usersService.getAllUsers(toString())).thenReturn(usersResponseDTOMock());
-        ResponseEntity<UsersResponseDTO> usersResponse = usersController.getAllUsers(mockusersRequestDTO());
-        Assertions.assertEquals(usersResponse.getStatusCode() , HttpStatus.OK);
-    }
-
-
-    @Test
-    public void getUsersForNegative(){
-        Mockito.when(usersService.getAllUsers(null)).thenReturn(usersResponseDTOMock());
-        ResponseEntity<UsersResponseDTO> usersResponse = usersController.getAllUsers(toString());
-        Assertions.assertEquals(usersResponse.getStatusCode() , HttpStatus.NOT_FOUND);
-    }
-    
-    @Test
-    public void updateUserDetailsTest(){
-        Mockito.when(usersService.updateUserDetails(mockusersRequestDTO())).thenReturn(usersResponseDTOMock());
-        Users usersResponse =   usersController.updateUserDetails(mockusersRequestDTO());
-        Assertions.assertEquals(usersResponse.getStatusCode() ,HttpStatus.OK);
-    }
-
-
-    @Test
-    public void updateUserDetailsForNegative(){
-        Mockito.when(usersService.updateUserDetails(null)).thenReturn(mockusersRequestDTO());
-        ResponseEntity<UsersDTO> usersResponse =   userController.updateusers(mockusersRequestDTO());
-        Assertions.assertEquals(usersResponse.getStatusCode() , HttpStatus.BAD_REQUEST);
-    }
-  
-    private UsersRequestDTO mockusersRequestDTO(){
-    	UsersRequestDTO usersRequestDTO = new UsersRequestDTO();
-    	usersRequestDTO.setId(109);
-    	usersRequestDTO.setName("Mock Name");
-    	usersRequestDTO.setUsername("Mock User Name");
-    	usersRequestDTO.setPhone("6545446");
-    	usersRequestDTO.setEmail("test@gmail.com");
-
+	UsersController usersController;
+	
+	@Mock
+	private UsersService usersService;
+	
+	@Test
+	public void addUsersDetailsTest() {
+		
+        Address address = new Address();
     	
-        return usersRequestDTO;
+    	address.setCity("visakapatnam");
+        address.setPincode("535101");
+        address.setStreet("kapustreet");
+        address.setVillage("madhavadhara");
+        address.setId(1);
+    	
+      List<Address> usersAddress = new ArrayList<>();
+      usersAddress.add(address);
+      
+      UsersDTO usersDTO = new UsersDTO();
+      
+      usersDTO.setId(1);
+      usersDTO.setName("sagar kondeti");
+      usersDTO.setUsername("sagar");
+      usersDTO.setPhone("8234590922");
+      usersDTO.setWebsite("www.sagar.com");
+      usersDTO.setEmail("sagar@gmail.com");
+      usersDTO.setAddress(usersAddress);
+      
+      
+      Users users = new Users();
+      
+      users.setId(1);
+      users.setName("sagar kondeti");
+      users.setUsername("sagar");
+      users.setPhone("8234590922");
+      users.setWebsite("www.sagar.com");
+      users.setEmail("sagar@gmail.com");
+      users.setAddress(usersAddress);
+       
+      when(usersService.addUsersDetails(any(UsersDTO.class))).thenReturn(users);
+      
+      usersController.addUsersDetails(usersDTO);
+      
+      verify(usersService, times(1)).addUsersDetails(usersDTO);
     }
-
-    private Users usersResponseDTOMock(){
-    	Users usersResponseDTO = new UsersResponseDTO();
-    	usersResponseDTO.setId(109);
-    	usersResponseDTO.setName("Mock Name");
-    	usersResponseDTO.setUsername("Mock User Name");
-    	usersResponseDTO.setPhone("6545446");
-    	usersResponseDTO.setEmail("test@gmail.com");
-        return usersResponseDTO;
+	
+	@Test
+	public void getAllUserDetailsTest() {
+		Address address1 = new Address(1,"Gandhi nagar","Vizag","vsp","530048");
+        Address address2 = new Address(2,"Gandhi nagar","Vizag","vsp","530048");
+        Address address3 = new Address(3,"Gandhi nagar","Vizag","vsp","530048");
+        
+        List<Address> users1Address = new ArrayList<>();
+        users1Address.add(address3);
+        users1Address.add(address1);
+        Users users1 = new Users(1,"Ramya","sree","ramya@gmail.com","9398265898","www.ramya.com", users1Address);
+        
+        List<Address> users2Address = new ArrayList<>();
+        users2Address.add(address2);
+        
+        Users users2 = new Users(2,"ram raju","raju","ramu@gmail.com","5626526526","www.ramu.com",users2Address);
+        
+        Users users3 = new Users(3,"varshini","sri","varshini@gmail.com","5626566464644","www.varshini.com",null);
+        List<Users> list = new ArrayList<Users>();
+        list.add(users1);
+        list.add(users2);
+        list.add(users3);
+        when(usersService.getAllUsers()).thenReturn(list);
+        //test
+        List<Users> usersList = usersController.getAllUsers();
+        assertEquals(3, usersList.size());
+        
+        verify(usersService, times(1)).getAllUsers();
+	}
+	
+	
+	@Test
+    public void updateUserDetailsTest()
+    {
+        Address address = new Address();
+    	
+    	address.setCity("visakapatnam");
+        address.setPincode("530048");
+        address.setStreet("gandhi nagar");
+        address.setVillage("madhavadhara");
+        address.setId(1);
+    	
+      List<Address> usersAddress = new ArrayList<>();
+      usersAddress.add(address);
+      
+      UsersDTO usersDTO = new UsersDTO();
+      
+      usersDTO.setId(1);
+      usersDTO.setName("Ramya");
+      usersDTO.setUsername("Sri");
+      usersDTO.setPhone("9398265898");
+      usersDTO.setWebsite("www.ramya.com");
+      usersDTO.setEmail("ramya@gmail.com");
+      usersDTO.setAddress(usersAddress);
+      
+      Users users = new Users();
+      
+      users.setId(1);
+      users.setName("Ram raju");
+      users.setUsername("raju");
+      users.setPhone("5626526526");
+      users.setWebsite("www.raju.com");
+      users.setEmail("raju@gmail.com");
+      users.setAddress(usersAddress);
+      
+       
+      when(usersService.updateUserDetails(any(UsersDTO.class))).thenReturn(users);
+      
+      usersController.updateUserDetails(usersDTO);
+      
+      verify(usersService, times(1)).updateUserDetails(usersDTO);
     }
-
-    private List<UsersResponseDTO> listOfUsersMock(){
-        List<UsersResponseDTO> listOfusers = new ArrayList<>();
-        UsersResponseDTO users = new UsersResponseDTO();
-        users.setId(109);
-        users.setname("Mock Name");
-    	users.setUsername("Mock User Name");
-    	users.setPhone("6545446");
-    	users.setEmail("test@gmail.com");
-
-        UsersResponseDTO users1 = new UsersResponseDTO();
-        users1.setId(109);
-    	users1.setName("Mock Name");
-    	users1.setUsername("Mock User Name");
-    	users1.setPhone("6545446");
-    	users1.setEmail("test@gmail.com");
-
-
-    	UsersResponseDTO users2 = new UsersResponseDTO();
-        users2.setId(109);
-    	users2.setName("Mock Name");
-    	users2.setUsername("Mock User Name");
-    	users2.setPhone("6545446");
-    	users2.setEmail("test@gmail.com");
-
-    	listOfusers.add(users);
-    	listOfusers.add(users1);
-    	listOfusers.add(users2);
-        return listOfusers;
-    }
-
-    
-
+	
+	 @Test
+	    public void getUserDetailsTest()
+	    {
+	        
+	        Address address1 = new Address(1,"varshini","Sri","vsp","530048");
+	        
+	        List<Address> users1Address = new ArrayList<>();
+	        users1Address.add(address1);
+	        
+	        Optional<Users> users1 = Optional.of(new Users(1,"Ramya","sree","ramya@gmail.com","9398265898","www.ramya.com", users1Address));
+	        when(usersService.getUserDetails(1)).thenReturn(users1);
+	        
+	        Optional<Users> users=usersController.getUserDetails(1);
+	        assertEquals(users1.get().getName(), users.get().getName());
+	        assertEquals(users1.get().getPhone(), users.get().getPhone());
+	        assertEquals(users1.get().getId(), users.get().getId());
+	    }
+	 
+	 @Test
+	    public void deleteByIdTest() {
+	    
+	    	Address address = new Address(1,"bhanu street","garividi","vzm","65789");
+	    	List<Address> userAddress = new ArrayList<>();
+	        userAddress.add(address);
+	        Users user = new Users(1,"sagar kondeti","sagar","sagar@gmail.com","8234590922","www.sagar.com", userAddress);
+	        
+	        assertEquals(1, user.getId());
+	        usersController.deleteUserDetails(1); 
+	    
+	    }
 }
-

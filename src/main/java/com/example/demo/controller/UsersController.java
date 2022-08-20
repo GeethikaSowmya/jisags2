@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.dto.UsersRequestDTO;
+import com.example.demo.dto.UsersDTO;
 import com.example.demo.model.Users;
 import com.example.demo.service.UsersService;
 
@@ -26,7 +26,7 @@ public class UsersController {
 	private UsersService usersService;
 	
 	@PostMapping("/addUsersDetails")
-	public Users addUsersDetails(@RequestBody UsersRequestDTO usersDTO)
+	public Users addUsersDetails(@RequestBody UsersDTO usersDTO)
 	{
 		return usersService.addUsersDetails(usersDTO);
 	}
@@ -38,7 +38,7 @@ public class UsersController {
 	}
 	
 	@PutMapping("/updateUser")
-	public Users updateUserDetails(@RequestBody UsersRequestDTO usersDTO) 
+	public Users updateUserDetails(@RequestBody UsersDTO usersDTO) 
 	{
 		return usersService.updateUserDetails(usersDTO);
 	}

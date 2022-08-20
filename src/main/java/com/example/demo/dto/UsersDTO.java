@@ -11,7 +11,8 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class UsersRequestDTO {
+public class UsersDTO {
+	
 	
     private int id;
 	

@@ -12,7 +12,7 @@ import java.util.Optional;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
-import com.example.demo.dto.UsersRequestDTO;
+import com.example.demo.dto.UsersDTO;
 import com.example.demo.model.Address;
 import com.example.demo.model.Users;
 
@@ -32,7 +32,7 @@ public class UsersServiceTest {
         
         List<Address> usersAddress = new ArrayList<>();
         usersAddress.add(address);
-        UsersRequestDTO usersDTO = new UsersRequestDTO(1,"Ram","raju","ram@gmail.com","561616416","www.raju.com", usersAddress);
+        UsersDTO usersDTO = new UsersDTO(1,"Ram","raju","ram@gmail.com","561616416","www.raju.com", usersAddress);
         usersService.addUsersDetails(usersDTO); 
         verify(usersService, times(1)).addUsersDetails(usersDTO);
     }
@@ -76,7 +76,7 @@ public class UsersServiceTest {
         usersAddress.add(address);
         
         
-        UsersRequestDTO usersDTO = new UsersRequestDTO(1,"surya","raj","surya@gmail.com","5152151412415","raju@.com", usersAddress);
+        UsersDTO usersDTO = new UsersDTO(1,"surya","raj","surya@gmail.com","5152151412415","raju@.com", usersAddress);
         usersService.updateUserDetails(usersDTO);
         verify(usersService, times(1)).updateUserDetails(usersDTO);
     }
